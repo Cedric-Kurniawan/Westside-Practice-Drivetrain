@@ -29,9 +29,9 @@ public final class Constants {
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(26.5);
+    public static final double kTrackWidth = Units.inchesToMeters(21.5);
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = Units.inchesToMeters(26.5);
+    public static final double kWheelBase = Units.inchesToMeters(21.5);
     // Distance between front and back wheels on robot
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -46,17 +46,35 @@ public final class Constants {
     public static final double kBackRightChassisAngularOffset = Math.PI / 2;
 
     // SPARK MAX CAN IDs
-    public static final int kFrontLeftDrivingCanId = 11;
-    public static final int kRearLeftDrivingCanId = 13;
-    public static final int kFrontRightDrivingCanId = 15;
-    public static final int kRearRightDrivingCanId = 17;
+      // Swerve Drive
+    public static final int kFrontLeftDrivingCanId = 10;
+    public static final int kFrontRightDrivingCanId = 12;
+    public static final int kRearRightDrivingCanId = 14;
+    public static final int kRearLeftDrivingCanId = 16;
+      // Swerve Steer
+    public static final int kFrontLeftTurningCanId = 11;
+    public static final int kFrontRightTurningCanId = 13;
+    public static final int kRearRightTurningCanId = 15;
+    public static final int kRearLeftTurningCanId = 17;
 
-    public static final int kFrontLeftTurningCanId = 10;
-    public static final int kRearLeftTurningCanId = 12;
-    public static final int kFrontRightTurningCanId = 14;
-    public static final int kRearRightTurningCanId = 16;
+      // Lift
+      public static final int kLeftLiftCanId = 1;    
+      public static final int kRightLiftCanId = 8; 
 
-    public static final boolean kGyroReversed = false;
+      // Arms
+      public static final int kHarpoonCanId = 7;
+      public static final int kHarpoonReelCanId = 6;
+      public static final int kCoralArmCanId = 2;
+      public static final int kCoralIntakeCanId = 3;
+      public static final int kAlgaeArmCanId = 5;
+      public static final int kAlgaeIntakeCanId = 4;
+
+      // Sensors
+      public static final int kGyroCanId = 20;
+      public static final boolean kGyroReversed = false;
+
+    // Other CAN IDs
+    public static final int kPduCanId = 30;
   }
 
   public static final class ModuleConstants {

@@ -53,4 +53,6 @@ public final class Configs {
                     .positionWrappingInputRange(0, turningFactor);
         }
     }
+
+//     public static final DefaultNeo {}
 }
