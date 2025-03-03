@@ -12,7 +12,7 @@ import edu.wpi.first.math.util.Units;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
- * constants. This class should not be used for any other purpose. All constants
+ * constants. This class should not be used for any other purPosee. All constants
  * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
@@ -57,33 +57,66 @@ public final class Constants {
     public static final int kRearRightTurningCanId = 15;
     public static final int kRearLeftTurningCanId = 17;
 
-      // Lift
-      public static final int kLeftLiftCanId = 1;    
-      public static final int kRightLiftCanId = 8; 
 
-      // Arms
-      public static final int kHarpoonCanId = 7;
-      public static final int kHarpoonReelCanId = 6;
-      public static final int kCoralArmCanId = 2;
-      public static final int kCoralIntakeCanId = 3;
-      public static final int kAlgaeArmCanId = 5;
-      public static final int kAlgaeIntakeCanId = 4;
-
-      // Sensors
-      public static final int kGyroCanId = 20;
-      public static final boolean kGyroReversed = false;
-
-    // Other CAN IDs
-    public static final int kPduCanId = 30;
   }
 
-  public static final class ModuleConstants {
-    // The MAXSwerve module can be configured with one of three pinion gears: 12T,
-    // 13T, or 14T. This changes the drive speed of the module (a pinion gear with
-    // more teeth will result in a robot that drives faster).
-    public static final int kDrivingMotorPinionTeeth = 14;
+public static final class SystemConstants {
+        // Lift
+        public static final int kLeftLiftCanId = 1;    
+        public static final int kRightLiftCanId = 8; 
+  
+        // Arms
+        public static final int kHarpoonCanId = 7;
+        public static final int kHarpoonReelCanId = 6;
+        public static final int kCoralArmCanId = 2;
+        public static final int kCoralIntakeCanId = 3;
+        public static final int kAlgaeArmCanId = 5;
+        public static final int kAlgaeIntakeCanId = 4;
+        
+        // Sensors
+        public static final int kGyroCanId = 20;
+        public static final boolean kGyroReversed = false;
+        public static final int kCoralLimitDIO = 0;
+        
+        // Other CAN IDs
+        public static final int kPduCanId = 30;
+      }
 
-    // Calculations required for driving motor conversion factors and feed forward
+  public static final class Setpoints {
+     public static enum kLiftPosition {
+        Start(0.5, 1.0, 1.0), 
+        Stage1(1.0, 1.0, 1.0), 
+        Stage2(1.0, 1.0, 1.0), 
+        Stage3(7.4, 1.0, 1.0);
+
+        public final Double LiftPose;
+        public final Double CoralPoseDeg;
+        public final Double AlgaePoseDeg;
+        kLiftPosition(Double LiftPose, Double CoralPoseDeg, Double AlgaePoseDeg) {
+          this.LiftPose = LiftPose;
+          this.CoralPoseDeg = CoralPoseDeg;
+          this.AlgaePoseDeg = AlgaePoseDeg;
+      }
+     }
+     public static enum kHarpoonPosition {
+      Start(0.0),
+      Deploy(0.0),
+      Intake(0.0);
+
+      public final Double Degrees;
+      kHarpoonPosition(Double Degrees) {
+        this.Degrees = Degrees;
+      }
+     }
+  }
+      
+      public static final class ModuleConstants {
+        // The MAXSwerve module can be configured with one of three pinion gears: 12T,
+        // 13T, or 14T. This changes the drive speed of the module (a pinion gear with
+        // more teeth will result in a robot that drives faster).
+        public static final int kDrivingMotorPinionTeeth = 14;
+        
+        // Calculations required for driving motor conversion factors and feed forward
     public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
     public static final double kWheelDiameterMeters = 0.0762;
     public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
@@ -96,7 +129,7 @@ public final class Constants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
-    public static final double kDriveDeadband = 0.05;
+    public static final double kDriveDeadband = 0.09;
   }
 
   public static final class AutoConstants {

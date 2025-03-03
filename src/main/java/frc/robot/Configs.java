@@ -54,5 +54,83 @@ public final class Configs {
         }
     }
 
-//     public static final DefaultNeo {}
+    public static final class DefaultNeo {
+            public static final SparkMaxConfig neoConfig = new SparkMaxConfig();
+            public static final SparkMaxConfig neoArmConfig = new SparkMaxConfig();
+            public static final SparkMaxConfig neoHarpoonConfig = new SparkMaxConfig();
+            public static final SparkMaxConfig neo550Config = new SparkMaxConfig();
+            public static final SparkMaxConfig liftLeftConfig = new SparkMaxConfig();
+            public static final SparkMaxConfig liftRightConfig = new SparkMaxConfig();
+            
+            static {
+                // Standard NEO Config
+                neoConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(50);  
+                
+                // Arm NEO Configs
+                neoArmConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(50);    
+                
+                neoArmConfig.absoluteEncoder
+                        .positionConversionFactor(360); // Degrees
+                
+                neoArmConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .pid(0.04, 0, 0)
+                        .velocityFF(1)
+                        .outputRange(-.5, .5);
+
+                neoArmConfig.closedLoop.maxMotion
+                        .maxAcceleration(1500)
+                        .maxVelocity(6400)
+                        .allowedClosedLoopError(0.05);
+                // Harpoon config (mostly for the PID garbo)
+                neoHarpoonConfig
+                .idleMode(IdleMode.kBrake)
+                .smartCurrentLimit(50);    
+                
+                neoHarpoonConfig.absoluteEncoder
+                        .positionConversionFactor(360); // Degrees
+                
+                neoHarpoonConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .pid(0.04, 0, 0)
+                        .velocityFF(1)
+                        .outputRange(-.5, .5);
+
+                neoHarpoonConfig.closedLoop.maxMotion
+                        .maxAcceleration(1500)
+                        .maxVelocity(6400)
+                        .allowedClosedLoopError(0.5);
+                        
+                neo550Config
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(25);
+                        
+                liftLeftConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(50);
+
+                        liftLeftConfig.absoluteEncoder
+                        .positionConversionFactor(10); // Degrees
+                        
+                        liftLeftConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .pid(.05, 0, 0)
+                        .velocityFF(0)
+                        .outputRange(-.4, .5);
+                        
+                        liftLeftConfig.closedLoop.maxMotion
+                        .maxAcceleration(1500)
+                        .maxVelocity(6400);
+                        
+                        liftRightConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(50)
+                        .follow(Constants.SystemConstants.kLeftLiftCanId, true);
+
+        }
+    }
 }
