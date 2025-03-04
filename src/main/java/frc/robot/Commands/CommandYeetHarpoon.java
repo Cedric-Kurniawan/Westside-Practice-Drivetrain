@@ -1,7 +1,6 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.Setpoints.kLiftPosition;
 import frc.robot.subsystems.Harpoon;
 
 public class CommandYeetHarpoon extends Command {
@@ -14,8 +13,10 @@ public class CommandYeetHarpoon extends Command {
 
     @Override
     public void execute() {
-        
-        m_harpoon.PositionHarpoon(0);
+        m_harpoon.HarpoonYeet(0);
     }
 
+    @Override public boolean isFinished() {
+        return true;
+    }
 }

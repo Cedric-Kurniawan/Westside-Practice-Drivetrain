@@ -84,10 +84,12 @@ public static final class SystemConstants {
 
   public static final class Setpoints {
      public static enum kLiftPosition {
-        Start(0.5, 1.0, 1.0), 
-        Stage1(1.0, 1.0, 1.0), 
-        Stage2(1.0, 1.0, 1.0), 
-        Stage3(7.4, 1.0, 1.0);
+        Start(1.0, 327.0, 20.0),
+        Base(1.0, 270.0, 20.0),
+        CoralStation(0.5, 1.0, 1.0), 
+        Stage1(3.0, 277.0, 100.0),
+        Stage2(5.0, 277.0, 100.0),
+        Stage3(7.0, 265.0, 100.0);
 
         public final Double LiftPose;
         public final Double CoralPoseDeg;
@@ -129,6 +131,7 @@ public static final class SystemConstants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControllerPort = 1;
     public static final double kDriveDeadband = 0.09;
   }
 

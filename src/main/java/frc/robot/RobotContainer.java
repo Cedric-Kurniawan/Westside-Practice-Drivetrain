@@ -13,15 +13,24 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
+import frc.robot.Commands.CommandCoralOuttake;
+import frc.robot.Commands.CommandIntake;
+import frc.robot.Commands.CommandMultiPosition;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.SystemConstants;
+import frc.robot.Constants.Setpoints.kLiftPosition;
+import frc.robot.subsystems.AlgaeArm;
+import frc.robot.subsystems.CoralArm;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Lift;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
 
@@ -34,10 +43,17 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final Lift m_lift = new Lift(SystemConstants.kLeftLiftCanId, SystemConstants.kRightLiftCanId);
+  private final CoralArm m_coralArm = new CoralArm(SystemConstants.kCoralIntakeCanId, SystemConstants.kCoralArmCanId, SystemConstants.kCoralLimitDIO);
+  private final AlgaeArm m_algaeArm = new AlgaeArm(SystemConstants.kAlgaeIntakeCanId, SystemConstants.kAlgaeArmCanId);
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  CommandXboxController m_driverCommander = new CommandXboxController(OIConstants.kDriverControllerPort);
 
+  // The operator's controller
+  XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -56,6 +72,9 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
+        m_driverCommander.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, 0.05).whileTrue(new CommandIntake(m_algaeArm, m_coralArm));
+    
+    // m_lift
   }
 
   /**
@@ -65,17 +84,33 @@ public class RobotContainer {
    * subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling
    * passing it to a
-   * {@link JoystickButton}.
+   * {@link JoystickButton}
    */
+
+   // Driver Bindings
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kR1.value)
+    new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
-    new JoystickButton(m_driverController, Button.kOptions.value)
+    new JoystickButton(m_driverController, XboxController.Button.kStart.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.zeroHeading(),
             m_robotDrive));
+    new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
+        .whileTrue(new CommandCoralOuttake(m_coralArm));
+    
+    // Operator Bindings
+    new JoystickButton(m_operatorController, PS4Controller.Button.kCross.value)
+        .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Start));
+    new JoystickButton(m_operatorController, PS4Controller.Button.kCircle.value)
+        .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage1));
+    new JoystickButton(m_operatorController, PS4Controller.Button.kTriangle.value)
+        .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm,kLiftPosition.Stage2));
+    new JoystickButton(m_operatorController, PS4Controller.Button.kSquare.value)
+        .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage3));
+    // new JoystickButton(m_operatorController, PS4Controller.Button.kR1.value)
+    //     .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.CoralStation));
   }
 
   /**

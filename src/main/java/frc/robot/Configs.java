@@ -5,6 +5,7 @@ import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants.NeoMotorConstants;
 
 public final class Configs {
     public static final class MAXSwerveModule {
@@ -74,17 +75,18 @@ public final class Configs {
                         .smartCurrentLimit(50);    
                 
                 neoArmConfig.absoluteEncoder
+                        .inverted(true)
                         .positionConversionFactor(360); // Degrees
                 
                 neoArmConfig.closedLoop
-                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                        .pid(0.04, 0, 0)
-                        .velocityFF(1)
-                        .outputRange(-.5, .5);
+                        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+                        .pid(0.5, 0, 0)
+                        .velocityFF(0)
+                        .outputRange(-.2, .2);
 
                 neoArmConfig.closedLoop.maxMotion
                         .maxAcceleration(1500)
-                        .maxVelocity(6400)
+                        .maxVelocity(NeoMotorConstants.kFreeSpeedRpm)
                         .allowedClosedLoopError(0.05);
                 // Harpoon config (mostly for the PID garbo)
                 neoHarpoonConfig
@@ -95,14 +97,14 @@ public final class Configs {
                         .positionConversionFactor(360); // Degrees
                 
                 neoHarpoonConfig.closedLoop
-                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
                         .pid(0.04, 0, 0)
-                        .velocityFF(1)
-                        .outputRange(-.5, .5);
+                        .velocityFF(0)
+                        .outputRange(-.2, .2);
 
                 neoHarpoonConfig.closedLoop.maxMotion
                         .maxAcceleration(1500)
-                        .maxVelocity(6400)
+                        .maxVelocity(NeoMotorConstants.kFreeSpeedRpm)
                         .allowedClosedLoopError(0.5);
                         
                 neo550Config
@@ -117,14 +119,14 @@ public final class Configs {
                         .positionConversionFactor(10); // Degrees
                         
                         liftLeftConfig.closedLoop
-                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                        .pid(.05, 0, 0)
+                        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+                        .pid(.5, 0, 0)
                         .velocityFF(0)
                         .outputRange(-.4, .5);
                         
                         liftLeftConfig.closedLoop.maxMotion
                         .maxAcceleration(1500)
-                        .maxVelocity(6400);
+                        .maxVelocity(NeoMotorConstants.kFreeSpeedRpm);
                         
                         liftRightConfig
                         .idleMode(IdleMode.kBrake)

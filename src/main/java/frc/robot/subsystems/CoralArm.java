@@ -37,7 +37,7 @@ public class CoralArm extends SubsystemBase {
      * @param setpoint The desired value from 0 to 1.
      */
     public void IntakeCoral(double setpoint) {
-        m_intakeSpark.set(!m_intakeLimitSwitch.get() && setpoint < 0
+        m_intakeSpark.set(m_intakeLimitSwitch.get() && setpoint < 0
         ? 0
         : setpoint
     );
@@ -49,6 +49,5 @@ public class CoralArm extends SubsystemBase {
      */
     public void CoralArmPosition(kLiftPosition targetPosition) {
         m_armClosedLoopController.setReference(targetPosition.CoralPoseDeg, ControlType.kPosition);
-        
    }
 }

@@ -31,7 +31,7 @@ public class Harpoon extends SubsystemBase {
      * 
      * @param setpoint The desired value in Degrees
      */
-    public void PositionHarpoon(double setpoint) {
+    public void OrientHarpoon(double setpoint) {
        m_deployClosedLoopController.setReference(setpoint, ControlType.kPosition);
     }
 
