@@ -15,6 +15,9 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.CommandCoralOuttake;
 import frc.robot.Commands.CommandAlgaeIntake;
 import frc.robot.Commands.CommandAlgaeOuttake;
@@ -22,6 +25,7 @@ import frc.robot.Commands.CommandCoralIntake;
 import frc.robot.Commands.CommandMultiPosition;
 import frc.robot.Commands.CommandSetBoost;
 import frc.robot.Commands.CommandSetCreep;
+import frc.robot.Commands.*;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -61,6 +65,9 @@ public class RobotContainer {
   // The operator's controller
   XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
   
+  // Configure SmartDashboard
+  SmartDashboard.putData("Arm Position: Base", new CommandPositionCoral);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
