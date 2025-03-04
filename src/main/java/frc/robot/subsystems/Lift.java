@@ -43,6 +43,6 @@ public class Lift extends SubsystemBase {
      * @param setpoint The desired setpoint from 0 to 10.
      */
     public void setLiftPosition(kLiftPosition targetPosition) {
-        m_liftClosedLoopController.setReference(targetPosition.LiftPose, ControlType.kPosition);
+        m_liftClosedLoopController.setReference(targetPosition.LiftPose, ControlType.kMAXMotionPositionControl);
     }
 }

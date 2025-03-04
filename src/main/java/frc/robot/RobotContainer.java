@@ -16,13 +16,18 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Commands.CommandCoralOuttake;
-import frc.robot.Commands.CommandIntake;
+import frc.robot.Commands.CommandAlgaeIntake;
+import frc.robot.Commands.CommandAlgaeOuttake;
+import frc.robot.Commands.CommandCoralIntake;
 import frc.robot.Commands.CommandMultiPosition;
+import frc.robot.Commands.CommandSetBoost;
+import frc.robot.Commands.CommandSetCreep;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.SystemConstants;
 import frc.robot.Constants.Setpoints.kLiftPosition;
+import frc.robot.Vars.Throttles;
 import frc.robot.subsystems.AlgaeArm;
 import frc.robot.subsystems.CoralArm;
 import frc.robot.subsystems.DriveSubsystem;
@@ -41,6 +46,8 @@ import java.util.List;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  // Variables
+  private static double kDriveThrottle = 1; 
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final Lift m_lift = new Lift(SystemConstants.kLeftLiftCanId, SystemConstants.kRightLiftCanId);
@@ -67,12 +74,13 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftY() * kDriveThrottle, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftX() * kDriveThrottle, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getRightX() * kDriveThrottle, OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
-        m_driverCommander.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, 0.05).whileTrue(new CommandIntake(m_algaeArm, m_coralArm));
+        m_driverCommander.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, 0.05).whileTrue(new CommandCoralIntake(m_coralArm));
+        m_driverCommander.axisGreaterThan(XboxController.Axis.kRightTrigger.value, 0.05).whileTrue(new CommandAlgaeIntake(m_algaeArm));
     
     // m_lift
   }
@@ -89,17 +97,21 @@ public class RobotContainer {
 
    // Driver Bindings
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
     new JoystickButton(m_driverController, XboxController.Button.kStart.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.zeroHeading(),
             m_robotDrive));
+
     new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value)
         .whileTrue(new CommandCoralOuttake(m_coralArm));
-    
+    new JoystickButton(m_driverController, XboxController.Button.kRightBumper.value)
+        .whileTrue(new CommandAlgaeOuttake(m_algaeArm));
+
+    new JoystickButton(m_driverController, XboxController.Button.kLeftStick.value)
+        .whileTrue(new CommandSetBoost(Throttles.kBoost));
+    new JoystickButton(m_driverController, XboxController.Button.kRightStick.value)
+        .whileTrue(new CommandSetCreep(Throttles.kCreep));
+
     // Operator Bindings
     new JoystickButton(m_operatorController, PS4Controller.Button.kCross.value)
         .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Start));

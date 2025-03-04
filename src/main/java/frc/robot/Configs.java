@@ -64,6 +64,8 @@ public final class Configs {
             public static final SparkMaxConfig liftRightConfig = new SparkMaxConfig();
             
             static {
+                double neoVelocityFeedForward = 1 / ModuleConstants.kDriveWheelFreeSpeedRps;
+
                 // Standard NEO Config
                 neoConfig
                         .idleMode(IdleMode.kBrake)
@@ -82,12 +84,13 @@ public final class Configs {
                         .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
                         .pid(0.5, 0, 0)
                         .velocityFF(0)
-                        .outputRange(-.2, .2);
+                        .outputRange(-.2, .2)
+                        .positionWrappingEnabled(false);
 
-                neoArmConfig.closedLoop.maxMotion
-                        .maxAcceleration(1500)
-                        .maxVelocity(NeoMotorConstants.kFreeSpeedRpm)
-                        .allowedClosedLoopError(0.05);
+                // neoArmConfig.closedLoop.maxMotion
+                //         .maxAcceleration(1500)
+                //         .maxVelocity(neoVelocityFeedForward)
+                //         .allowedClosedLoopError(0.05);
                 // Harpoon config (mostly for the PID garbo)
                 neoHarpoonConfig
                 .idleMode(IdleMode.kBrake)
@@ -99,7 +102,7 @@ public final class Configs {
                 neoHarpoonConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
                         .pid(0.04, 0, 0)
-                        .velocityFF(0)
+                        .velocityFF(neoVelocityFeedForward)
                         .outputRange(-.2, .2);
 
                 neoHarpoonConfig.closedLoop.maxMotion
@@ -121,11 +124,11 @@ public final class Configs {
                         liftLeftConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
                         .pid(.5, 0, 0)
-                        .velocityFF(0)
-                        .outputRange(-.4, .5);
+                        .velocityFF(neoVelocityFeedForward)
+                        .outputRange(-.7, 1);
                         
                         liftLeftConfig.closedLoop.maxMotion
-                        .maxAcceleration(1500)
+                        .maxAcceleration(2500)
                         .maxVelocity(NeoMotorConstants.kFreeSpeedRpm);
                         
                         liftRightConfig

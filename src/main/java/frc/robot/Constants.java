@@ -86,10 +86,11 @@ public static final class SystemConstants {
      public static enum kLiftPosition {
         Start(1.0, 327.0, 20.0),
         Base(1.0, 270.0, 20.0),
-        CoralStation(0.5, 1.0, 1.0), 
+        CoralStation(1.0, 1.0, 20.0), 
         Stage1(3.0, 277.0, 100.0),
         Stage2(5.0, 277.0, 100.0),
-        Stage3(7.0, 265.0, 100.0);
+        Stage3(7.0, 265.0, 100.0),
+        Other(null, null, null);
 
         public final Double LiftPose;
         public final Double CoralPoseDeg;
@@ -103,7 +104,8 @@ public static final class SystemConstants {
      public static enum kHarpoonPosition {
       Start(0.0),
       Deploy(0.0),
-      Intake(0.0);
+      Intake(0.0),
+      Other(null);
 
       public final Double Degrees;
       kHarpoonPosition(Double Degrees) {

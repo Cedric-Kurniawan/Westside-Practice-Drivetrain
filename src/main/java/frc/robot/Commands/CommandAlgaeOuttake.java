@@ -7,7 +7,7 @@ import frc.robot.subsystems.AlgaeArm;
 public class CommandAlgaeOuttake extends Command {
         private final AlgaeArm m_algaeArm;
 
-    private CommandAlgaeOuttake(AlgaeArm algaeArm) {
+    public CommandAlgaeOuttake(AlgaeArm algaeArm) {
         m_algaeArm = algaeArm;
         addRequirements(m_algaeArm);
     }
@@ -15,5 +15,10 @@ public class CommandAlgaeOuttake extends Command {
     @Override
     public void execute() {
         m_algaeArm.IntakeAlgae(-1 * Throttles.kCoralIntakeThrottle);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        m_algaeArm.IntakeAlgae(0);
     }
 }

@@ -48,6 +48,6 @@ public class CoralArm extends SubsystemBase {
      * @param targetPosition The target in degrees for arm, "good enough" ~ Jesse
      */
     public void CoralArmPosition(kLiftPosition targetPosition) {
-        m_armClosedLoopController.setReference(targetPosition.CoralPoseDeg, ControlType.kPosition);
+        m_armClosedLoopController.setReference(targetPosition.CoralPoseDeg, ControlType.kMAXMotionPositionControl);
    }
 }
