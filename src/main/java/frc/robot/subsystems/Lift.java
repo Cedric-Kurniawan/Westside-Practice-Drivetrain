@@ -21,16 +21,16 @@ public class Lift extends SubsystemBase {
         m_liftRightSpark = new SparkMax(RightLiftCanId, MotorType.kBrushless);
         m_liftClosedLoopController = m_liftLeftSpark.getClosedLoopController();
 
-        m_liftLeftSpark.configure(
-            Configs.DefaultNeo.liftLeftConfig,
-            ResetMode.kNoResetSafeParameters,
-            PersistMode.kPersistParameters
-        );
-        m_liftRightSpark.configure(
-            Configs.DefaultNeo.liftRightConfig,
-            ResetMode.kNoResetSafeParameters,
-            PersistMode.kPersistParameters
-        );
+        // m_liftLeftSpark.configure(
+        //     Configs.DefaultNeo.liftLeftConfig,
+        //     ResetMode.kResetSafeParameters,
+        //     PersistMode.kPersistParameters
+        // );
+        // m_liftRightSpark.configure(
+        //     Configs.DefaultNeo.liftRightConfig,
+        //     ResetMode.kResetSafeParameters,
+        //     PersistMode.kPersistParameters
+        // );
     }
 
     public kLiftPosition getLiftPosition() {
@@ -43,6 +43,6 @@ public class Lift extends SubsystemBase {
      * @param setpoint The desired setpoint from 0 to 10.
      */
     public void setLiftPosition(kLiftPosition targetPosition) {
-        m_liftClosedLoopController.setReference(targetPosition.LiftPose, ControlType.kMAXMotionPositionControl);
+        m_liftClosedLoopController.setReference(targetPosition.LiftPose, ControlType.kPosition);
     }
 }

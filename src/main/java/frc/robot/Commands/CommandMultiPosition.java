@@ -27,4 +27,8 @@ public class CommandMultiPosition extends Command {
         m_coral.CoralArmPosition(m_position);
         m_lift.setLiftPosition(m_position);
     }
+
+    @Override public boolean isFinished() {
+        return true;
+    }
 }

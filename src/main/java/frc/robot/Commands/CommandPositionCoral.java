@@ -1,5 +1,6 @@
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Setpoints.kLiftPosition;
 import frc.robot.subsystems.CoralArm;
@@ -18,6 +19,10 @@ public class CommandPositionCoral extends Command {
     @Override 
     public void execute() {
         m_coralArm.CoralArmPosition(m_coralPosition);
+        SmartDashboard.putNumber("Coral Commanded", m_coralPosition.CoralPoseDeg);
     }
-
+    
+    @Override public boolean isFinished() {
+        return true;
+    }
 }

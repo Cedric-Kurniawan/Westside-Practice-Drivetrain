@@ -24,8 +24,8 @@ public class CoralArm extends SubsystemBase {
         m_intakeLimitSwitch = new DigitalInput(intakeLimitSwitchID);
 
 
-        m_intakeSpark.configure(Configs.DefaultNeo.neoConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
-        m_armSpark.configure(Configs.DefaultNeo.neoArmConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        // m_intakeSpark.configure(Configs.DefaultNeo.neoConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        // m_armSpark.configure(Configs.DefaultNeo.neoArmConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_armClosedLoopController = m_armSpark.getClosedLoopController();
     } 
@@ -48,6 +48,6 @@ public class CoralArm extends SubsystemBase {
      * @param targetPosition The target in degrees for arm, "good enough" ~ Jesse
      */
     public void CoralArmPosition(kLiftPosition targetPosition) {
-        m_armClosedLoopController.setReference(targetPosition.CoralPoseDeg, ControlType.kMAXMotionPositionControl);
+        m_armClosedLoopController.setReference(targetPosition.CoralPoseDeg, ControlType.kPosition);
    }
 }

@@ -20,8 +20,8 @@ public class Harpoon extends SubsystemBase {
         m_deploySpark = new SparkMax(deployCANId, MotorType.kBrushless);
 
 
-        m_reelSpark.configure(Configs.DefaultNeo.neoConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
-        m_deploySpark.configure(Configs.DefaultNeo.neoHarpoonConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        // m_reelSpark.configure(Configs.DefaultNeo.neoConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        // m_deploySpark.configure(Configs.DefaultNeo.neoHarpoonConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_deployClosedLoopController = m_deploySpark.getClosedLoopController();
     }

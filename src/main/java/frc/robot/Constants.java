@@ -84,12 +84,11 @@ public static final class SystemConstants {
 
   public static final class Setpoints {
      public static enum kLiftPosition {
-        Start(1.0, 327.0, 20.0),
-        Base(1.0, 270.0, 20.0),
-        CoralStation(1.0, 1.0, 20.0), 
-        Stage1(3.0, 277.0, 100.0),
-        Stage2(5.0, 277.0, 100.0),
-        Stage3(7.0, 265.0, 100.0),
+        Start(0.75, 9.0, 1.1),
+        Base(0.75,  8.5, 1.1),
+        Stage1(3.0, 7.25, 1.2),
+        Stage2(5.0, 7.25, 3.5),
+        Stage3(7.0, 7.25, 1.2),
         Other(null, null, null);
 
         public final Double LiftPose;

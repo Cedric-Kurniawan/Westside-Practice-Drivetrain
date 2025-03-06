@@ -13,9 +13,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Commands.CommandCoralOuttake;
@@ -29,6 +32,7 @@ import frc.robot.Commands.*;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.Setpoints;
 import frc.robot.Constants.SystemConstants;
 import frc.robot.Constants.Setpoints.kLiftPosition;
 import frc.robot.Vars.Throttles;
@@ -42,6 +46,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
+import java.util.Map;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -51,7 +56,7 @@ import java.util.List;
  */
 public class RobotContainer {
   // Variables
-  private static double kDriveThrottle = 1; 
+
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final Lift m_lift = new Lift(SystemConstants.kLeftLiftCanId, SystemConstants.kRightLiftCanId);
@@ -65,13 +70,46 @@ public class RobotContainer {
   // The operator's controller
   XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
   
-  // Configure SmartDashboard
-  SmartDashboard.putData("Arm Position: Base", new CommandPositionCoral);
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+      
+      
+    // Configure SmartDashboard
+    SmartDashboard.putData("Algae Arm Position: Base",   new CommandPositionAlgae(m_algaeArm, kLiftPosition.Base));
+    SmartDashboard.putData("Algae Arm Position: Stage1", new CommandPositionAlgae(m_algaeArm, kLiftPosition.Stage1));
+    SmartDashboard.putData("Algae Arm Position: Stage2", new CommandPositionAlgae(m_algaeArm, kLiftPosition.Stage2));
+    SmartDashboard.putData("Algae Arm Position: Stage3", new CommandPositionAlgae(m_algaeArm, kLiftPosition.Stage3));
+    SmartDashboard.putData("Algae Arm Position: Start",  new CommandPositionAlgae(m_algaeArm, kLiftPosition.Start));
+    SmartDashboard.putData("Coral Arm Position: Base",   new CommandPositionCoral(m_coralArm, kLiftPosition.Base));
+    SmartDashboard.putData("Coral Arm Position: Stage1", new CommandPositionCoral(m_coralArm, kLiftPosition.Stage1));
+    SmartDashboard.putData("Coral Arm Position: Stage2", new CommandPositionCoral(m_coralArm, kLiftPosition.Stage2));
+    SmartDashboard.putData("Coral Arm Position: Stage3", new CommandPositionCoral(m_coralArm, kLiftPosition.Stage3));
+    SmartDashboard.putData("Coral Arm Position: Start",  new CommandPositionCoral(m_coralArm, kLiftPosition.Start));
+    SmartDashboard.putData("Lift Position: Base",   new CommandPositionLift(m_lift, kLiftPosition.Base));
+    SmartDashboard.putData("Lift Position: Stage1", new CommandPositionLift(m_lift, kLiftPosition.Stage1));
+    SmartDashboard.putData("Lift Position: Stage2", new CommandPositionLift(m_lift, kLiftPosition.Stage3));
+    SmartDashboard.putData("Lift Position: Stage3", new CommandPositionLift(m_lift, kLiftPosition.Stage3));
+    SmartDashboard.putData("Lift Position: Start",  new CommandPositionLift(m_lift, kLiftPosition.Start));
+    
+    // for (kLiftPosition position : kLiftPosition.values()) {
+        final ShuffleboardTab tab = Shuffleboard.getTab("Lift Values");
+            tab.add("Algae Base", kLiftPosition.Base.AlgaePoseDeg)
+                .withProperties(Map.of("min", 0, "max", 10))
+                .getEntry();
+            tab.add("Algae Stages", kLiftPosition.Stage1.AlgaePoseDeg)
+                .withProperties(Map.of("min", 0, "max", 360))
+                .getEntry();
+            tab.add("Algae Start", kLiftPosition.Start.AlgaePoseDeg)
+                .withProperties(Map.of("min", 0, "max", 360))
+                .getEntry();
+
+    // }
+    // kLiftPosition.Base.AlgaePoseDeg = SmartDashboard.getNumber("Base Value: Algae", kLiftPosition.Base.AlgaePoseDeg);
+    // kLiftPosition.Stage1.AlgaePoseDeg = SmartDashboard.getNumber("Stages Value: Algae", kLiftPosition.Stage1.AlgaePoseDeg);
+    // kLiftPosition.Start.AlgaePoseDeg = SmartDashboard.getNumber("Start Value: Algae", kLiftPosition.Start.AlgaePoseDeg);
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -81,9 +119,9 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY() * kDriveThrottle, OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX() * kDriveThrottle, OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX() * kDriveThrottle, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftY() * Throttles.kDriveThrottle, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftX() * Throttles.kDriveThrottle, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getRightX() * Throttles.kDriveThrottle, OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
         m_driverCommander.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, 0.05).whileTrue(new CommandCoralIntake(m_coralArm));
@@ -125,7 +163,7 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, PS4Controller.Button.kCircle.value)
         .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage1));
     new JoystickButton(m_operatorController, PS4Controller.Button.kTriangle.value)
-        .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm,kLiftPosition.Stage2));
+        .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage2));
     new JoystickButton(m_operatorController, PS4Controller.Button.kSquare.value)
         .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage3));
     // new JoystickButton(m_operatorController, PS4Controller.Button.kR1.value)

@@ -1,5 +1,6 @@
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Setpoints.kLiftPosition;
 import frc.robot.subsystems.Lift;
@@ -18,6 +19,8 @@ public class CommandPositionLift extends Command {
     @Override 
     public void execute() {
         m_lift.setLiftPosition(m_position);
+        SmartDashboard.putNumber("Lift Commanded", m_position.LiftPose);
+
     }
 
     @Override public boolean isFinished() {

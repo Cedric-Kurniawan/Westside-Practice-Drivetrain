@@ -77,14 +77,14 @@ public final class Configs {
                         .smartCurrentLimit(50);    
                 
                 neoArmConfig.absoluteEncoder
-                        .inverted(true)
-                        .positionConversionFactor(360); // Degrees
+                        .inverted(false)
+                        .positionConversionFactor(10); // Degrees
                 
                 neoArmConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-                        .pid(0.5, 0, 0)
+                        .pid(0.3, 0, 0)
                         .velocityFF(0)
-                        .outputRange(-.2, .2)
+                        .outputRange(-0.25, 0.25)
                         .positionWrappingEnabled(false);
 
                 // neoArmConfig.closedLoop.maxMotion
@@ -116,24 +116,25 @@ public final class Configs {
                         
                 liftLeftConfig
                         .idleMode(IdleMode.kBrake)
-                        .smartCurrentLimit(50);
+                        .smartCurrentLimit(50)
+                        .inverted(true);
 
-                        liftLeftConfig.absoluteEncoder
+                liftLeftConfig.absoluteEncoder
                         .positionConversionFactor(10); // Degrees
                         
-                        liftLeftConfig.closedLoop
+                liftLeftConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-                        .pid(.5, 0, 0)
-                        .velocityFF(neoVelocityFeedForward)
-                        .outputRange(-.7, 1);
+                        .pid(.5, 0, 0.019)
+                        .velocityFF(0.002)
+                        .outputRange(-.6, .8);
                         
-                        liftLeftConfig.closedLoop.maxMotion
-                        .maxAcceleration(2500)
-                        .maxVelocity(NeoMotorConstants.kFreeSpeedRpm);
+                liftLeftConfig.closedLoop.maxMotion
+                        .maxAcceleration(3000)
+                        .maxVelocity(5000);
                         
-                        liftRightConfig
+                liftRightConfig
                         .idleMode(IdleMode.kBrake)
-                        .smartCurrentLimit(50)
+                        .smartCurrentLimit(80)
                         .follow(Constants.SystemConstants.kLeftLiftCanId, true);
 
         }
