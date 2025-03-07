@@ -73,17 +73,17 @@ public class RobotContainer {
   public RobotContainer() {
       
     // Register auto commands
-    NamedCommands.registerCommands(Map.of(
-        "startConfig", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Start),
-        "stage1", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage1),
-        "stage2", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage2),
-        "stage3", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage3),
-        "base", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Base),
-        "algae2", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.algae2),
-        "processor", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.processor),
-        "intakeCoral", new CommandCoralIntake(m_coralArm),
-        "intakeAlgae", new CommandAlgaeIntake(m_algaeArm),
-    ));
+    NamedCommands.registerCommand("startConfig", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Start));
+    NamedCommands.registerCommand("stage1", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage1));
+    NamedCommands.registerCommand("stage2", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage2));
+    NamedCommands.registerCommand("stage3", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage3));
+    NamedCommands.registerCommand("base", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Base));
+    NamedCommands.registerCommand("algae2", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.algae2));
+    NamedCommands.registerCommand("processor", new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.processor));
+    NamedCommands.registerCommand("intakeCoral", new CommandCoralIntake(m_coralArm));
+    NamedCommands.registerCommand("intakeAlgae", new CommandAlgaeIntake(m_algaeArm));
+    NamedCommands.registerCommand("outtakeCoral", new CommandCoralOuttake(m_coralArm));
+    NamedCommands.registerCommand("outtakeAlgae", new CommandAlgaeOuttake(m_algaeArm));
       
     // Configure SmartDashboard
     SmartDashboard.putData("Algae Arm Position: Base",   new CommandPositionAlgae(m_algaeArm, kLiftPosition.Base));

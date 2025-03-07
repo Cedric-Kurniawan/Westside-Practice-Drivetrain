@@ -4,10 +4,12 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
@@ -62,13 +64,18 @@ public final class Constants {
     // Autonomous
     // Load the RobotConfig from the GUI settings. You should probably
     // store this in your Constants file
-    public static RobotConfig kAutonConfig; {
-    try{
-      kAutonConfig = RobotConfig.fromGUISettings();
-    } catch (Exception e) {
-      // Handle exception as needed
-      e.printStackTrace();
-    }
+    public static RobotConfig kAutonConfig = new RobotConfig(43.454, 6.883, new ModuleConfig(
+      0.031,
+      4.8,
+      1.2,
+      new DCMotor(
+        kFrontRightChassisAngularOffset,
+        kFrontLeftTurningCanId,
+        kFrontLeftChassisAngularOffset,
+        kBackRightChassisAngularOffset,
+        kBackLeftChassisAngularOffset,
+        kFrontLeftDrivingCanId),
+      null, 4), null); {
   }
   }
 
