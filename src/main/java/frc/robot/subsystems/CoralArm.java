@@ -25,7 +25,7 @@ public class CoralArm extends SubsystemBase {
 
 
         // m_intakeSpark.configure(Configs.DefaultNeo.neoConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        // m_armSpark.configure(Configs.DefaultNeo.neoArmConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_armSpark.configure(Configs.DefaultNeo.neoArmConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_armClosedLoopController = m_armSpark.getClosedLoopController();
     } 

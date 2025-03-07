@@ -9,6 +9,8 @@ import com.revrobotics.spark.SparkMax;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants.Setpoints.kLiftPosition;
@@ -17,18 +19,20 @@ public class AlgaeArm extends SubsystemBase {
   private final SparkMax m_armSpark;
     private final VictorSPX m_intakeVictor;
     private final SparkClosedLoopController m_armClosedLoopController;
-
+    private final ShuffleboardTab m_sensorsDB;
     public AlgaeArm(int intakeCANId, int armCANId) {
         m_intakeVictor = new VictorSPX(intakeCANId);
         m_armSpark = new SparkMax(armCANId, MotorType.kBrushless);
+        m_sensorsDB = Shuffleboard.getTab("Sensors");
+
 
 
         // m_intakeVictor.configure(Configs.DefaultNeo.neoConfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
-        // m_armSpark.configure(Configs.DefaultNeo.neoArmConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_armSpark.configure(Configs.DefaultNeo.neoArmConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_armClosedLoopController = m_armSpark.getClosedLoopController();
+        m_sensorsDB.add("AlgaeArm", 0);
 
-        Shuffleboard.getTab("SmartDashboard").add("AlgaeArm", m_armSpark.getAbsoluteEncoder().getPosition());
     } 
 
 
@@ -47,5 +51,10 @@ public class AlgaeArm extends SubsystemBase {
      */
     public void AlgaeArmPosition(kLiftPosition targetPosition) {
         m_armClosedLoopController.setReference(targetPosition.AlgaePoseDeg, ControlType.kPosition);
+   }
+
+   @Override
+   public void periodic() {
+    SmartDashboard.putNumber("Algae Arm", m_armSpark.getAbsoluteEncoder().getPosition());
    }
 }

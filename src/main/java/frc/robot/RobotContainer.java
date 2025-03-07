@@ -158,16 +158,18 @@ public class RobotContainer {
         .whileTrue(new CommandSetCreep(Throttles.kCreep));
 
     // Operator Bindings
-    new JoystickButton(m_operatorController, PS4Controller.Button.kCross.value)
+    new JoystickButton(m_operatorController, XboxController.Button.kA.value)
         .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Start));
-    new JoystickButton(m_operatorController, PS4Controller.Button.kCircle.value)
+    new JoystickButton(m_operatorController, XboxController.Button.kB.value)
         .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage1));
-    new JoystickButton(m_operatorController, PS4Controller.Button.kTriangle.value)
+    new JoystickButton(m_operatorController, XboxController.Button.kY.value)
         .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage2));
-    new JoystickButton(m_operatorController, PS4Controller.Button.kSquare.value)
+    new JoystickButton(m_operatorController, XboxController.Button.kX.value)
         .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Stage3));
-    // new JoystickButton(m_operatorController, PS4Controller.Button.kR1.value)
-    //     .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.CoralStation));
+    new JoystickButton(m_operatorController, XboxController.Button.kRightBumper.value)
+        .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.algae2));
+    new JoystickButton(m_operatorController, XboxController.Button.kLeftBumper.value)
+        .whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.Base));
   }
 
   /**

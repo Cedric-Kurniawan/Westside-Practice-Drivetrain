@@ -74,7 +74,7 @@ public final class Configs {
                 // Arm NEO Configs
                 neoArmConfig
                         .idleMode(IdleMode.kBrake)
-                        .smartCurrentLimit(50);    
+                        .smartCurrentLimit(80);    
                 
                 neoArmConfig.absoluteEncoder
                         .inverted(false)
@@ -116,7 +116,7 @@ public final class Configs {
                         
                 liftLeftConfig
                         .idleMode(IdleMode.kBrake)
-                        .smartCurrentLimit(50)
+                        .smartCurrentLimit(80)
                         .inverted(true);
 
                 liftLeftConfig.absoluteEncoder

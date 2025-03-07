@@ -21,16 +21,16 @@ public class Lift extends SubsystemBase {
         m_liftRightSpark = new SparkMax(RightLiftCanId, MotorType.kBrushless);
         m_liftClosedLoopController = m_liftLeftSpark.getClosedLoopController();
 
-        // m_liftLeftSpark.configure(
-        //     Configs.DefaultNeo.liftLeftConfig,
-        //     ResetMode.kResetSafeParameters,
-        //     PersistMode.kPersistParameters
-        // );
-        // m_liftRightSpark.configure(
-        //     Configs.DefaultNeo.liftRightConfig,
-        //     ResetMode.kResetSafeParameters,
-        //     PersistMode.kPersistParameters
-        // );
+        m_liftLeftSpark.configure(
+            Configs.DefaultNeo.liftLeftConfig,
+            ResetMode.kResetSafeParameters,
+            PersistMode.kPersistParameters
+        );
+        m_liftRightSpark.configure(
+            Configs.DefaultNeo.liftRightConfig,
+            ResetMode.kResetSafeParameters,
+            PersistMode.kPersistParameters
+        );
     }
 
     public kLiftPosition getLiftPosition() {
