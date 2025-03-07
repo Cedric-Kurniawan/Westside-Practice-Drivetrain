@@ -59,13 +59,14 @@ public class RobotContainer {
   private final Lift m_lift = new Lift(SystemConstants.kLeftLiftCanId, SystemConstants.kRightLiftCanId);
   private final CoralArm m_coralArm = new CoralArm(SystemConstants.kCoralIntakeCanId, SystemConstants.kCoralArmCanId, SystemConstants.kCoralLimitDIO);
   private final AlgaeArm m_algaeArm = new AlgaeArm(SystemConstants.kAlgaeIntakeCanId, SystemConstants.kAlgaeArmCanId);
-
+  
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   CommandXboxController m_driverCommander = new CommandXboxController(OIConstants.kDriverControllerPort);
-
+  
   // The operator's controller
   XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
+  CommandXboxController m_operatorCommander = new CommandXboxController(OIConstants.kOperatorControllerPort);
   
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -84,7 +85,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("intakeAlgae", new CommandAlgaeIntake(m_algaeArm));
     NamedCommands.registerCommand("outtakeCoral", new CommandCoralOuttake(m_coralArm));
     NamedCommands.registerCommand("outtakeAlgae", new CommandAlgaeOuttake(m_algaeArm));
-      
+    
     // Configure SmartDashboard
     SmartDashboard.putData("Algae Arm Position: Base",   new CommandPositionAlgae(m_algaeArm, kLiftPosition.Base));
     SmartDashboard.putData("Algae Arm Position: Stage1", new CommandPositionAlgae(m_algaeArm, kLiftPosition.Stage1));
@@ -135,6 +136,7 @@ public class RobotContainer {
             m_robotDrive));
         m_driverCommander.axisGreaterThan(XboxController.Axis.kLeftTrigger.value, 0.05).whileTrue(new CommandCoralIntake(m_coralArm));
         m_driverCommander.axisGreaterThan(XboxController.Axis.kRightTrigger.value, 0.05).whileTrue(new CommandAlgaeIntake(m_algaeArm));
+        m_operatorCommander.axisGreaterThan(XboxController.Axis.kRightTrigger.value, 0.05).whileTrue(new CommandMultiPosition(m_lift, m_coralArm, m_algaeArm, kLiftPosition.processor));
     
     // m_lift
 
